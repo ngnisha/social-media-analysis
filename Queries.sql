@@ -111,6 +111,18 @@ INNER JOIN comments AS c ON u.user_id = c.user_id
 GROUP BY u.username
 ORDER BY comments_count DESC;
 
+--Query 11: Creating trigger so that if any data will be deleted from users table , it will have a backup
+CREATE TRIGGER del_user
+ON users
+FOR DELETE
+AS
+BEGIN
+    INSERT INTO backup_user (user_id, username, profile_photo_url, bio, email, created_at)
+    SELECT user_id, username, profile_photo_url, bio, email, created_at
+    FROM deleted;
+END;
+
+
 --Query 11: Any specific word in comment:
 SELECT * FROM comments
 WHERE comment_text LIKE '%good%' OR comment_text LIKE '%beautiful%';
