@@ -5317,3 +5317,12 @@ INSERT INTO LOGIN(user_id , ip) VALUES (48,'155.148.13.228');
 INSERT INTO LOGIN(user_id , ip) VALUES (35,'101.225.93.143');
 
 select * from login
+
+
+--creating a backup table
+
+create trigger del_user
+before delete on users
+for each row
+insert into backup_user (:old.id,:old.username,:old.profile_phot_url,:old.bio,:old.email,:old.created_at);
+end;
